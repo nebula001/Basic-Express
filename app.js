@@ -3,6 +3,10 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 3000;
 const { products, people } = require("./data.js");
+const {
+  validateProductId,
+  validatePeopleId,
+} = require("./middlewares/validateId.js");
 
 // Middleware to parse JSON
 app.use(express.json());
@@ -11,26 +15,30 @@ app.get("/api/v1/products", (req, res) => {
   return res.status(200).json(products);
 });
 
-app.get("/api/v1/products/:id", (req, res) => {
+app.get("/api/v1/products/:id", validateProductId, (req, res) => {
   const { id } = req.params;
   const prod = products.find((product) => product.id === Number(id));
   if (prod) {
     return res.status(200).json(prod);
   }
-  return res.status(400).json({ status: false, result: "notfound" });
+  return res
+    .status(400)
+    .json({ status: false, result: `No Product with id = ${id} exists` });
 });
 
 app.get("/api/v1/people", (req, res) => {
   return res.status(200).json(people);
 });
 
-app.get("/api/v1/people/:id", (req, res) => {
+app.get("/api/v1/people/:id", validatePeopleId, (req, res) => {
   const { id } = req.params;
   const per = people.find((person) => person.id === Number(id));
   if (per) {
     return res.status(200).json(per);
   }
-  return res.status(400).json({ status: false, result: "notfound" });
+  return res
+    .status(400)
+    .json({ status: false, result: `No Person with id = ${id} exists` });
 });
 
 app.post("/api/v1/products", (req, res) => {
