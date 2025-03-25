@@ -11,4 +11,4 @@
   - Deletes product and person.
 - Since this project doesn't uses real databases so it doesn't retain the changes of the POST, PUT and DELETE Operations.
 - Structured and Refactored the project in the same way as a production level project should be including middlewares, routes and controllers.
-- use npm install to install the dependencies and npm run dev to run the project.
+- use npm install to install the dependencies and npm start to run the project.
